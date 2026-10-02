@@ -1,0 +1,72 @@
+{
+  "name": "schemata-vscode",
+  "displayName": "Schemata",
+  "description": "Schemata schema language: highlighting, diagnostics, navigation, rename, and formatting",
+  "version": "0.8.0",
+  "publisher": "msbolton",
+  "license": "Apache-2.0",
+  "repository": { "type": "git", "url": "https://github.com/msbolton/schemata-vscode.git" },
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["Programming Languages", "Formatters", "Linters"],
+  "main": "./out/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "languages": [
+      {
+        "id": "schemata",
+        "aliases": ["Schemata", "schemata"],
+        "extensions": [".schemata"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      { "language": "schemata", "scopeName": "source.schemata", "path": "./syntaxes/schemata.tmLanguage.json" }
+    ],
+    "configuration": {
+      "title": "Schemata",
+      "properties": {
+        "schemata.path": {
+          "type": "string",
+          "default": "schemata",
+          "scope": "machine-overridable",
+          "description": "The schemata binary to run as the language server. A bare name is looked up on PATH."
+        },
+        "schemata.roots": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "scope": "resource",
+          "description": "Directories, relative to the workspace folder, whose whole subtree is one schema set. Without roots, each directory is its own set."
+        },
+        "schemata.strict": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "Report implicit ordinals as errors."
+        }
+      }
+    },
+    "commands": [
+      { "command": "schemata.restartServer", "title": "Schemata: Restart Language Server" }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "lint": "tsc -p . --noEmit",
+    "pretest": "tsc -p tsconfig.test.json",
+    "test": "node --test out-test/test/version.test.js && npm run test:grammar",
+    "test:grammar": "vscode-tmgrammar-snap test/grammar/*.schemata",
+    "package": "vsce package --no-dependencies --out schemata-vscode.vsix",
+    "vscode:prepublish": "npm run bundle",
+    "bundle": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=out/extension.js"
+  },
+  "dependencies": { "vscode-languageclient": "^9.0.1" },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0",
+    "vscode-tmgrammar-test": "^0.1.3"
+  }
+}

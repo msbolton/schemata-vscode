@@ -1,0 +1,78 @@
+import { execFile } from "node:child_process";
+import * as vscode from "vscode";
+import { LanguageClient, LanguageClientOptions, ServerOptions } from "vscode-languageclient/node";
+import { MINIMUM, parseVersion, supports } from "./version";
+
+let client: LanguageClient | undefined;
+
+function settings(): { path: string; roots: string[]; strict: boolean } {
+  const config = vscode.workspace.getConfiguration("schemata");
+  return {
+    path: config.get<string>("path", "schemata"),
+    roots: config.get<string[]>("roots", []),
+    strict: config.get<boolean>("strict", false),
+  };
+}
+
+/** Runs `<path> --version`; resolves to its output, or undefined when it cannot be run. */
+function versionOf(path: string): Promise<string | undefined> {
+  return new Promise((resolve) => {
+    execFile(path, ["--version"], { timeout: 10_000 }, (error, stdout) => {
+      resolve(error ? undefined : stdout);
+    });
+  });
+}
+
+async function start(): Promise<void> {
+  const { path, roots, strict } = settings();
+  const output = await versionOf(path);
+  if (output === undefined) {
+    void vscode.window.showErrorMessage(
+      `Schemata: could not run "${path}". Install it with "brew install msbolton/schemata/schemata", ` +
+        `or set schemata.path to the binary.`,
+    );
+    return;
+  }
+  const version = parseVersion(output);
+  if (version === undefined || !supports(version)) {
+    void vscode.window.showErrorMessage(
+      `Schemata: "${path}" is ${output.trim() || "an unknown version"}; the language server needs ` +
+        `${MINIMUM.join(".")} or later. Upgrade it, or set schemata.path to a newer binary.`,
+    );
+    return;
+  }
+  const server: ServerOptions = { command: path, args: ["lsp"] };
+  const options: LanguageClientOptions = {
+    documentSelector: [{ scheme: "file", language: "schemata" }],
+    initializationOptions: { roots, strict },
+    synchronize: { configurationSection: "schemata" },
+  };
+  client = new LanguageClient("schemata", "Schemata", server, options);
+  await client.start();
+}
+
+async function stop(): Promise<void> {
+  const running = client;
+  client = undefined;
+  if (running) await running.stop();
+}
+
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("schemata.restartServer", async () => {
+      await stop();
+      await start();
+    }),
+    vscode.workspace.onDidChangeConfiguration(async (event) => {
+      if (event.affectsConfiguration("schemata.path")) {
+        await stop();
+        await start();
+      }
+    }),
+  );
+  await start();
+}
+
+export function deactivate(): Promise<void> {
+  return stop();
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Schemata",
+  "scopeName": "source.schemata",
+  "patterns": [
+    { "include": "#doc-comment" },
+    { "include": "#line-comment" },
+    { "include": "#block-comment" },
+    { "include": "#string" },
+    { "include": "#annotation" },
+    { "include": "#ordinal" },
+    { "include": "#number" },
+    { "include": "#declaration" },
+    { "include": "#keyword" },
+    { "include": "#constant" },
+    { "include": "#builtin" },
+    { "include": "#field-name" },
+    { "include": "#type-name" }
+  ],
+  "repository": {
+    "doc-comment": { "name": "comment.line.documentation.schemata", "match": "///.*$" },
+    "line-comment": { "name": "comment.line.double-slash.schemata", "match": "//.*$" },
+    "block-comment": { "name": "comment.block.schemata", "begin": "/\\*", "end": "\\*/" },
+    "string": {
+      "name": "string.quoted.double.schemata",
+      "begin": "\"",
+      "end": "\"|$",
+      "patterns": [{ "name": "constant.character.escape.schemata", "match": "\\\\." }]
+    },
+    "annotation": {
+      "match": "(@)([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.annotation.schemata" },
+        "2": { "name": "storage.type.annotation.schemata" }
+      }
+    },
+    "ordinal": { "name": "constant.numeric.ordinal.schemata", "match": "#[0-9]+" },
+    "number": { "name": "constant.numeric.schemata", "match": "-?\\b[0-9]+(\\.[0-9]+)?\\b" },
+    "declaration": {
+      "match": "\\b(record|enum|union|alias)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": { "name": "keyword.declaration.schemata" },
+        "2": { "name": "entity.name.type.schemata" }
+      }
+    },
+    "keyword": {
+      "name": "keyword.control.schemata",
+      "match": "\\b(namespace|import|as|record|enum|union|alias|reserved|service|operation|stream)\\b"
+    },
+    "constant": { "name": "constant.language.schemata", "match": "\\b(true|false|null)\\b" },
+    "builtin": {
+      "name": "support.type.builtin.schemata",
+      "match": "\\b(bool|int32|int64|float32|float64|decimal|string|bytes|uuid|date|time|instant|duration|list|map)\\b"
+    },
+    "field-name": {
+      "match": "\\b([a-z_][A-Za-z0-9_]*)\\s*(:)",
+      "captures": {
+        "1": { "name": "variable.other.member.schemata" },
+        "2": { "name": "punctuation.separator.schemata" }
+      }
+    },
+    "type-name": { "name": "entity.name.type.schemata", "match": "\\b[A-Z][A-Za-z0-9_]*\\b" }
+  }
+}
