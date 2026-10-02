@@ -24,3 +24,8 @@ test("0.8.0 and later have the language server; earlier versions do not", () => 
   assert.equal(supports([0, 7, 9]), false);
   assert.equal(supports([0, 7, 0]), false);
 });
+
+test("a development build is supported by the version it follows", () => {
+  assert.equal(supports(parseVersion("schemata 0.7.0-dev+abc")!), false);
+  assert.equal(supports(parseVersion("schemata 0.8.0-dev+abc")!), true);
+});

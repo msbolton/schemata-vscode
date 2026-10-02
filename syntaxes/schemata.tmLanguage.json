@@ -12,9 +12,9 @@
     { "include": "#number" },
     { "include": "#declaration" },
     { "include": "#keyword" },
+    { "include": "#field-name" },
     { "include": "#constant" },
     { "include": "#builtin" },
-    { "include": "#field-name" },
     { "include": "#type-name" }
   ],
   "repository": {

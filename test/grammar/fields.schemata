@@ -1,0 +1,12 @@
+namespace shop.events
+
+// Field names that look like builtin types are still field names.
+record Event {
+  #4 date:   date
+  #5 string: string /* a label */
+  #6 active: bool = true
+  #7 offset: int32 = -5
+  #8 rate:   float64 = 1.5
+  @deprecated("say \"hi\"") #9 note: string?
+  reserved #1..#3
+}
