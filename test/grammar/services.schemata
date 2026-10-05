@@ -1,0 +1,22 @@
+/// Orders and their lines.
+namespace shop.orders
+
+record OrderId { @sql(key) #1 id: uuid }
+
+// Outside a service, a verb is an ordinary field name.
+record Request { #1 get: string #2 post: bool }
+
+/// Place and read orders.
+@http(base = "/v1")
+service Orders {
+  /// Fetch one order.
+  #1 get(OrderId): Order  get "/orders/{id}"
+  #2 list(ListOrders): stream Order  get "/orders" // newest first
+  #3 place(PlaceOrder): Order  post "/orders"
+  #4 cancel(OrderId)  delete "/orders/{id}"
+  #5 upload(stream Chunk): Receipt
+  #6 sync(catalog.Batch): Receipt  put "/sync"
+  reserved #7, "archive"
+}
+
+record After { #1 delete: bool }

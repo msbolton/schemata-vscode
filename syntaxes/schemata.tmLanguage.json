@@ -10,6 +10,7 @@
     { "include": "#annotation" },
     { "include": "#ordinal" },
     { "include": "#number" },
+    { "include": "#service" },
     { "include": "#declaration" },
     { "include": "#keyword" },
     { "include": "#field-name" },
@@ -36,8 +37,43 @@
     },
     "ordinal": { "name": "constant.numeric.ordinal.schemata", "match": "#[0-9]+" },
     "number": { "name": "constant.numeric.schemata", "match": "-?\\b[0-9]+(\\.[0-9]+)?\\b" },
+    "service": {
+      "comment": "Verbs are ordinary identifiers elsewhere, so bindings are matched only inside a service body.",
+      "begin": "\\b(service)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\{)",
+      "beginCaptures": {
+        "1": { "name": "keyword.declaration.schemata" },
+        "2": { "name": "entity.name.type.schemata" }
+      },
+      "end": "\\}",
+      "patterns": [
+        { "include": "#doc-comment" },
+        { "include": "#line-comment" },
+        { "include": "#block-comment" },
+        { "include": "#binding" },
+        { "include": "#string" },
+        { "include": "#annotation" },
+        { "include": "#ordinal" },
+        { "include": "#number" },
+        { "include": "#keyword" },
+        { "include": "#operation-name" },
+        { "include": "#constant" },
+        { "include": "#builtin" },
+        { "include": "#type-name" }
+      ]
+    },
+    "binding": {
+      "match": "\\b(get|post|put|patch|delete|head|options)\\s+(\"[^\"]*\")",
+      "captures": {
+        "1": { "name": "keyword.other.verb.schemata" },
+        "2": { "name": "string.quoted.double.schemata" }
+      }
+    },
+    "operation-name": {
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+      "captures": { "1": { "name": "entity.name.function.schemata" } }
+    },
     "declaration": {
-      "match": "\\b(record|enum|union|alias)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+      "match": "\\b(record|enum|union|alias|service)\\s+([A-Za-z_][A-Za-z0-9_]*)",
       "captures": {
         "1": { "name": "keyword.declaration.schemata" },
         "2": { "name": "entity.name.type.schemata" }
