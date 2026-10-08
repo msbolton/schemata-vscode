@@ -154,7 +154,18 @@
 #                                                      ^ source.schemata constant.numeric.schemata
 #                                                       ^ source.schemata
 #                                                        ^ source.schemata punctuation.section.braces.end.schemata
->  reserved #10..#12
+>  #10 absent Absence = null
+#^^ source.schemata
+#  ^^^ source.schemata constant.numeric.ordinal.schemata
+#     ^ source.schemata
+#      ^^^^^^ source.schemata variable.other.member.schemata
+#            ^ source.schemata
+#             ^^^^^^^ source.schemata entity.name.type.schemata
+#                    ^ source.schemata
+#                     ^ source.schemata keyword.operator.assignment.schemata
+#                      ^ source.schemata
+#                       ^^^^ source.schemata variable.other.constant.schemata
+>  reserved #11..#12
 #^^ source.schemata
 #  ^^^^^^^^ source.schemata keyword.control.schemata
 #          ^ source.schemata
@@ -163,4 +174,19 @@
 #                ^^^ source.schemata constant.numeric.ordinal.schemata
 >}
 #^ source.schemata punctuation.section.block.end.schemata
+>
+>// 2.0 has no null literal; `null` is an ordinary name.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
+>enum Absence { null missing }
+#^^^^ source.schemata keyword.declaration.schemata
+#    ^ source.schemata
+#     ^^^^^^^ source.schemata entity.name.type.schemata
+#            ^ source.schemata
+#             ^ source.schemata punctuation.section.block.begin.schemata
+#              ^ source.schemata
+#               ^^^^ source.schemata variable.other.enummember.schemata
+#                   ^ source.schemata
+#                    ^^^^^^^ source.schemata variable.other.enummember.schemata
+#                           ^ source.schemata
+#                            ^ source.schemata punctuation.section.block.end.schemata
 >

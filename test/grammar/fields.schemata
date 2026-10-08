@@ -11,5 +11,9 @@ model Event {
   #7 note   string? @deprecated("say \"hi\"")
   #8 kind   enum { a b c } = a
   #9 place  { lat float64  lon float64 }[] { minItems 1 }
-  reserved #10..#12
+  #10 absent Absence = null
+  reserved #11..#12
 }
+
+// 2.0 has no null literal; `null` is an ordinary name.
+enum Absence { null missing }

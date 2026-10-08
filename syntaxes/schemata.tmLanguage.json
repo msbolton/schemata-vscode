@@ -380,7 +380,7 @@
       ]
     },
     "default": {
-      "match": "(=)\\s*(?:(true|false|null)\\b|([A-Za-z_][A-Za-z0-9_]*)\\b)?",
+      "match": "(=)\\s*(?:(true|false)\\b|([A-Za-z_][A-Za-z0-9_]*)\\b)?",
       "captures": {
         "1": {
           "name": "keyword.operator.assignment.schemata"
@@ -654,7 +654,7 @@
     },
     "constant": {
       "name": "constant.language.schemata",
-      "match": "\\b(true|false|null)\\b"
+      "match": "\\b(true|false)\\b"
     },
     "operator": {
       "patterns": [

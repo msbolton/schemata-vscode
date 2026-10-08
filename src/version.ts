@@ -16,3 +16,13 @@ export function supports(version: Version): boolean {
   }
   return true;
 }
+
+/**
+ * Whether `schemata --version` output names a server this extension starts. A developer's own build
+ * (`-dev+sha`) opts out of the floor; a tagged version, a release candidate included, must reach it.
+ */
+export function accepts(output: string): boolean {
+  const version = parseVersion(output);
+  if (version === undefined) return false;
+  return /^schemata \d+\.\d+\.\d+(?:-rc\.\d+)?-dev\+/.test(output.trim()) || supports(version);
+}
