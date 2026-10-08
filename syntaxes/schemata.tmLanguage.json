@@ -3,98 +3,686 @@
   "name": "Schemata",
   "scopeName": "source.schemata",
   "patterns": [
-    { "include": "#doc-comment" },
-    { "include": "#line-comment" },
-    { "include": "#block-comment" },
-    { "include": "#string" },
-    { "include": "#annotation" },
-    { "include": "#ordinal" },
-    { "include": "#number" },
-    { "include": "#service" },
-    { "include": "#declaration" },
-    { "include": "#keyword" },
-    { "include": "#field-name" },
-    { "include": "#constant" },
-    { "include": "#builtin" },
-    { "include": "#type-name" }
+    {
+      "include": "#doc-comment"
+    },
+    {
+      "include": "#line-comment"
+    },
+    {
+      "include": "#block-comment"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#attribute"
+    },
+    {
+      "include": "#header"
+    },
+    {
+      "include": "#import"
+    },
+    {
+      "include": "#model"
+    },
+    {
+      "include": "#enum"
+    },
+    {
+      "include": "#service"
+    },
+    {
+      "include": "#declaration"
+    },
+    {
+      "include": "#option-block"
+    },
+    {
+      "include": "#ordinal"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#constant"
+    },
+    {
+      "include": "#operator"
+    },
+    {
+      "include": "#type-arguments"
+    },
+    {
+      "include": "#type-suffix"
+    },
+    {
+      "include": "#builtin"
+    },
+    {
+      "include": "#type-name"
+    }
   ],
   "repository": {
-    "doc-comment": { "name": "comment.line.documentation.schemata", "match": "///.*$" },
-    "line-comment": { "name": "comment.line.double-slash.schemata", "match": "//.*$" },
-    "block-comment": { "name": "comment.block.schemata", "begin": "/\\*", "end": "\\*/" },
+    "doc-comment": {
+      "name": "comment.line.documentation.schemata",
+      "match": "///.*$"
+    },
+    "line-comment": {
+      "name": "comment.line.double-slash.schemata",
+      "match": "//.*$"
+    },
+    "block-comment": {
+      "name": "comment.block.schemata",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
     "string": {
       "name": "string.quoted.double.schemata",
       "begin": "\"",
       "end": "\"|$",
-      "patterns": [{ "name": "constant.character.escape.schemata", "match": "\\\\." }]
+      "patterns": [
+        {
+          "name": "constant.character.escape.schemata",
+          "match": "\\\\."
+        }
+      ]
     },
-    "annotation": {
-      "match": "(@)([A-Za-z_][A-Za-z0-9_]*)",
+    "attribute": {
+      "comment": "`@name` or `@@name`, with arguments `key: value`, bare names, or literals.",
+      "patterns": [
+        {
+          "begin": "(@@?)([A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.annotation.schemata"
+            },
+            "2": {
+              "name": "storage.type.annotation.schemata"
+            },
+            "3": {
+              "name": "punctuation.section.parens.begin.schemata"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.end.schemata"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#doc-comment"
+            },
+            {
+              "include": "#line-comment"
+            },
+            {
+              "include": "#block-comment"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "include": "#attribute-key"
+            },
+            {
+              "include": "#number"
+            },
+            {
+              "include": "#constant"
+            },
+            {
+              "include": "#name-tuple"
+            },
+            {
+              "include": "#attribute-name-value"
+            }
+          ]
+        },
+        {
+          "match": "(@@?)([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.annotation.schemata"
+            },
+            "2": {
+              "name": "storage.type.annotation.schemata"
+            }
+          }
+        }
+      ]
+    },
+    "attribute-key": {
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(:)",
       "captures": {
-        "1": { "name": "punctuation.definition.annotation.schemata" },
-        "2": { "name": "storage.type.annotation.schemata" }
+        "1": {
+          "name": "variable.parameter.schemata"
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.schemata"
+        }
       }
     },
-    "ordinal": { "name": "constant.numeric.ordinal.schemata", "match": "#[0-9]+" },
-    "number": { "name": "constant.numeric.schemata", "match": "-?\\b[0-9]+(\\.[0-9]+)?\\b" },
+    "name-tuple": {
+      "begin": "\\(",
+      "end": "\\)",
+      "patterns": [
+        {
+          "include": "#attribute-name-value"
+        }
+      ]
+    },
+    "attribute-name-value": {
+      "name": "variable.other.schemata",
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    },
+    "header": {
+      "match": "\\b(schema)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\s*\\.\\s*[A-Za-z_][A-Za-z0-9_]*)*)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.schemata"
+        },
+        "2": {
+          "name": "entity.name.namespace.schemata"
+        }
+      }
+    },
+    "import": {
+      "match": "\\b(import)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\s*\\.\\s*[A-Za-z_][A-Za-z0-9_]*)*)(?:\\s+(as)\\s+([A-Za-z_][A-Za-z0-9_]*))?",
+      "captures": {
+        "1": {
+          "name": "keyword.control.schemata"
+        },
+        "2": {
+          "name": "entity.name.namespace.schemata"
+        },
+        "3": {
+          "name": "keyword.control.schemata"
+        },
+        "4": {
+          "name": "entity.name.namespace.schemata"
+        }
+      }
+    },
+    "model": {
+      "begin": "\\b(model)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.declaration.schemata"
+        },
+        "2": {
+          "name": "entity.name.type.schemata"
+        },
+        "3": {
+          "name": "punctuation.section.block.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#model-body"
+        }
+      ]
+    },
+    "model-body": {
+      "comment": "The members of a model or an inline shape. Fields are `[#n] name Type`; after the type come its options in braces.",
+      "patterns": [
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#attribute"
+        },
+        {
+          "include": "#model"
+        },
+        {
+          "include": "#enum"
+        },
+        {
+          "include": "#declaration"
+        },
+        {
+          "include": "#inline-enum-field"
+        },
+        {
+          "include": "#shape-field"
+        },
+        {
+          "include": "#field"
+        },
+        {
+          "include": "#default"
+        },
+        {
+          "include": "#option-block"
+        },
+        {
+          "include": "#ordinal"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#keyword"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#type-arguments"
+        },
+        {
+          "include": "#type-suffix"
+        },
+        {
+          "include": "#builtin"
+        },
+        {
+          "include": "#type-name"
+        }
+      ]
+    },
+    "field": {
+      "match": "(?:(#[0-9]+)\\s+)?\\b(?!(?:schema|import|as|model|enum|union|alias|reserved|service|operation|stream|true|false)\\b)([A-Za-z_][A-Za-z0-9_]*)\\s+((?!(?:schema|import|as|model|enum|union|alias|reserved|service|operation|stream|true|false)\\b)[A-Za-z_][A-Za-z0-9_]*(?:\\s*\\.\\s*[A-Za-z_][A-Za-z0-9_]*)*)",
+      "captures": {
+        "1": {
+          "name": "constant.numeric.ordinal.schemata"
+        },
+        "2": {
+          "name": "variable.other.member.schemata"
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#builtin"
+            },
+            {
+              "include": "#any-type-name"
+            }
+          ]
+        }
+      }
+    },
+    "inline-enum-field": {
+      "begin": "(?:(#[0-9]+)\\s+)?\\b(?!(?:schema|import|as|model|enum|union|alias|reserved|service|operation|stream|true|false)\\b)([A-Za-z_][A-Za-z0-9_]*)\\s+(enum)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "constant.numeric.ordinal.schemata"
+        },
+        "2": {
+          "name": "variable.other.member.schemata"
+        },
+        "3": {
+          "name": "keyword.control.schemata"
+        },
+        "4": {
+          "name": "punctuation.section.block.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#enum-body"
+        }
+      ]
+    },
+    "shape-field": {
+      "begin": "(?:(#[0-9]+)\\s+)?\\b(?!(?:schema|import|as|model|enum|union|alias|reserved|service|operation|stream|true|false)\\b)([A-Za-z_][A-Za-z0-9_]*)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "constant.numeric.ordinal.schemata"
+        },
+        "2": {
+          "name": "variable.other.member.schemata"
+        },
+        "3": {
+          "name": "punctuation.section.block.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#model-body"
+        }
+      ]
+    },
+    "default": {
+      "match": "(=)\\s*(?:(true|false)\\b|([A-Za-z_][A-Za-z0-9_]*)\\b)?",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.assignment.schemata"
+        },
+        "2": {
+          "name": "constant.language.schemata"
+        },
+        "3": {
+          "name": "variable.other.constant.schemata"
+        }
+      }
+    },
+    "option-block": {
+      "comment": "Options after a type: bare flags (`id`, `unique`, `embed`) or a name and a literal (`max 100`, `match \"re\"`).",
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.braces.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.braces.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "name": "storage.modifier.option.schemata",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        },
+        {
+          "name": "punctuation.separator.comma.schemata",
+          "match": ","
+        }
+      ]
+    },
+    "type-arguments": {
+      "begin": "<",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.typeparameters.begin.schemata"
+        }
+      },
+      "end": ">",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.typeparameters.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#option-block"
+        },
+        {
+          "include": "#type-suffix"
+        },
+        {
+          "include": "#builtin"
+        },
+        {
+          "include": "#any-type-name"
+        },
+        {
+          "include": "#type-arguments"
+        }
+      ]
+    },
+    "type-suffix": {
+      "patterns": [
+        {
+          "name": "keyword.operator.optional.schemata",
+          "match": "\\?"
+        },
+        {
+          "name": "punctuation.definition.list.schemata",
+          "match": "\\[\\s*\\]"
+        }
+      ]
+    },
+    "enum": {
+      "begin": "\\b(enum)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.declaration.schemata"
+        },
+        "2": {
+          "name": "entity.name.type.schemata"
+        },
+        "3": {
+          "name": "punctuation.section.block.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#enum-body"
+        }
+      ]
+    },
+    "enum-body": {
+      "patterns": [
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#attribute"
+        },
+        {
+          "include": "#ordinal"
+        },
+        {
+          "include": "#keyword"
+        },
+        {
+          "name": "variable.other.enummember.schemata",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        },
+        {
+          "name": "punctuation.separator.comma.schemata",
+          "match": ","
+        }
+      ]
+    },
+    "declaration": {
+      "comment": "A union or an alias, and a model or enum whose brace is not on its line.",
+      "match": "\\b(model|enum|union|alias)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(=)?",
+      "captures": {
+        "1": {
+          "name": "keyword.declaration.schemata"
+        },
+        "2": {
+          "name": "entity.name.type.schemata"
+        },
+        "3": {
+          "name": "keyword.operator.assignment.schemata"
+        }
+      }
+    },
+    "ordinal": {
+      "name": "constant.numeric.ordinal.schemata",
+      "match": "#[0-9]+"
+    },
+    "number": {
+      "name": "constant.numeric.schemata",
+      "match": "-?\\b[0-9]+(\\.[0-9]+)?\\b"
+    },
     "service": {
       "comment": "Verbs are ordinary identifiers elsewhere, so bindings are matched only inside a service body.",
       "begin": "\\b(service)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\{)",
       "beginCaptures": {
-        "1": { "name": "keyword.declaration.schemata" },
-        "2": { "name": "entity.name.type.schemata" }
+        "1": {
+          "name": "keyword.declaration.schemata"
+        },
+        "2": {
+          "name": "entity.name.type.schemata"
+        }
       },
       "end": "\\}",
       "patterns": [
-        { "include": "#doc-comment" },
-        { "include": "#line-comment" },
-        { "include": "#block-comment" },
-        { "include": "#binding" },
-        { "include": "#string" },
-        { "include": "#annotation" },
-        { "include": "#ordinal" },
-        { "include": "#number" },
-        { "include": "#keyword" },
-        { "include": "#operation-name" },
-        { "include": "#constant" },
-        { "include": "#builtin" },
-        { "include": "#type-name" }
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#binding"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#attribute"
+        },
+        {
+          "include": "#ordinal"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#keyword"
+        },
+        {
+          "include": "#operation-name"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#type-arguments"
+        },
+        {
+          "include": "#type-suffix"
+        },
+        {
+          "include": "#builtin"
+        },
+        {
+          "include": "#type-name"
+        }
       ]
     },
     "binding": {
-      "match": "\\b(get|post|put|patch|delete|head|options)\\s+(\"[^\"]*\")",
+      "match": "\\b(get|post|put|patch|delete|head|options)\\s+(\\\"[^\\\"]*\\\")",
       "captures": {
-        "1": { "name": "keyword.other.verb.schemata" },
-        "2": { "name": "string.quoted.double.schemata" }
+        "1": {
+          "name": "keyword.other.verb.schemata"
+        },
+        "2": {
+          "name": "string.quoted.double.schemata"
+        }
       }
     },
     "operation-name": {
       "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
-      "captures": { "1": { "name": "entity.name.function.schemata" } }
-    },
-    "declaration": {
-      "match": "\\b(record|enum|union|alias|service)\\s+([A-Za-z_][A-Za-z0-9_]*)",
       "captures": {
-        "1": { "name": "keyword.declaration.schemata" },
-        "2": { "name": "entity.name.type.schemata" }
+        "1": {
+          "name": "entity.name.function.schemata"
+        }
       }
     },
     "keyword": {
       "name": "keyword.control.schemata",
-      "match": "\\b(namespace|import|as|record|enum|union|alias|reserved|service|operation|stream)\\b"
+      "match": "\\b(schema|import|as|model|enum|union|alias|reserved|service|operation|stream)\\b"
     },
-    "constant": { "name": "constant.language.schemata", "match": "\\b(true|false|null)\\b" },
+    "constant": {
+      "name": "constant.language.schemata",
+      "match": "\\b(true|false)\\b"
+    },
+    "operator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.schemata",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.union.schemata",
+          "match": "\\|"
+        },
+        {
+          "name": "keyword.operator.range.schemata",
+          "match": "\\.\\."
+        }
+      ]
+    },
     "builtin": {
       "name": "support.type.builtin.schemata",
-      "match": "\\b(bool|int32|int64|float32|float64|decimal|string|bytes|uuid|date|time|instant|duration|list|map)\\b"
+      "match": "\\b(bool|int32|int64|float32|float64|decimal|string|bytes|uuid|date|time|instant|duration|map)\\b"
     },
-    "field-name": {
-      "match": "\\b([a-z_][A-Za-z0-9_]*)\\s*(:)",
-      "captures": {
-        "1": { "name": "variable.other.member.schemata" },
-        "2": { "name": "punctuation.separator.schemata" }
-      }
+    "type-name": {
+      "name": "entity.name.type.schemata",
+      "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
     },
-    "type-name": { "name": "entity.name.type.schemata", "match": "\\b[A-Z][A-Za-z0-9_]*\\b" }
+    "any-type-name": {
+      "name": "entity.name.type.schemata",
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+    }
   }
 }

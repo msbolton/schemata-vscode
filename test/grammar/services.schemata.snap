@@ -1,57 +1,61 @@
 >/// Orders and their lines.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->namespace shop.orders
-#^^^^^^^^^ source.schemata keyword.control.schemata
-#         ^^^^^^^^^^^^^ source.schemata
->
->record OrderId { @sql(key) #1 id: uuid }
-#^^^^^^ source.schemata keyword.declaration.schemata
+>schema shop.orders
+#^^^^^^ source.schemata keyword.control.schemata
 #      ^ source.schemata
-#       ^^^^^^^ source.schemata entity.name.type.schemata
-#              ^^^ source.schemata
-#                 ^ source.schemata punctuation.definition.annotation.schemata
-#                  ^^^ source.schemata storage.type.annotation.schemata
-#                     ^^^^^^ source.schemata
-#                           ^^ source.schemata constant.numeric.ordinal.schemata
-#                             ^ source.schemata
-#                              ^^ source.schemata variable.other.member.schemata
-#                                ^ source.schemata punctuation.separator.schemata
-#                                 ^ source.schemata
-#                                  ^^^^ source.schemata support.type.builtin.schemata
-#                                      ^^^ source.schemata
+#       ^^^^^^^^^^^ source.schemata entity.name.namespace.schemata
+>
+>model OrderId { id uuid { id } }
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^^^ source.schemata entity.name.type.schemata
+#             ^ source.schemata
+#              ^ source.schemata punctuation.section.block.begin.schemata
+#               ^ source.schemata
+#                ^^ source.schemata variable.other.member.schemata
+#                  ^ source.schemata
+#                   ^^^^ source.schemata support.type.builtin.schemata
+#                       ^ source.schemata
+#                        ^ source.schemata punctuation.section.braces.begin.schemata
+#                         ^ source.schemata
+#                          ^^ source.schemata storage.modifier.option.schemata
+#                            ^ source.schemata
+#                             ^ source.schemata punctuation.section.braces.end.schemata
+#                              ^ source.schemata
+#                               ^ source.schemata punctuation.section.block.end.schemata
 >
 >// Outside a service, a verb is an ordinary field name.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
->record Request { #1 get: string #2 post: bool }
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^^^^ source.schemata entity.name.type.schemata
-#              ^^^ source.schemata
-#                 ^^ source.schemata constant.numeric.ordinal.schemata
+>model Request { get string  post bool }
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^^^ source.schemata entity.name.type.schemata
+#             ^ source.schemata
+#              ^ source.schemata punctuation.section.block.begin.schemata
+#               ^ source.schemata
+#                ^^^ source.schemata variable.other.member.schemata
 #                   ^ source.schemata
-#                    ^^^ source.schemata variable.other.member.schemata
-#                       ^ source.schemata punctuation.separator.schemata
-#                        ^ source.schemata
-#                         ^^^^^^ source.schemata support.type.builtin.schemata
-#                               ^ source.schemata
-#                                ^^ source.schemata constant.numeric.ordinal.schemata
-#                                  ^ source.schemata
-#                                   ^^^^ source.schemata variable.other.member.schemata
-#                                       ^ source.schemata punctuation.separator.schemata
-#                                        ^ source.schemata
-#                                         ^^^^ source.schemata support.type.builtin.schemata
-#                                             ^^^ source.schemata
+#                    ^^^^^^ source.schemata support.type.builtin.schemata
+#                          ^^ source.schemata
+#                            ^^^^ source.schemata variable.other.member.schemata
+#                                ^ source.schemata
+#                                 ^^^^ source.schemata support.type.builtin.schemata
+#                                     ^ source.schemata
+#                                      ^ source.schemata punctuation.section.block.end.schemata
 >
 >/// Place and read orders.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->@http(base = "/v1")
+>@http(base: "/v1")
 #^ source.schemata punctuation.definition.annotation.schemata
 # ^^^^ source.schemata storage.type.annotation.schemata
-#     ^^^^^^^^ source.schemata
-#             ^ source.schemata string.quoted.double.schemata
-#              ^^^ source.schemata string.quoted.double.schemata
-#                 ^ source.schemata string.quoted.double.schemata
-#                  ^^ source.schemata
+#     ^ source.schemata punctuation.section.parens.begin.schemata
+#      ^^^^ source.schemata variable.parameter.schemata
+#          ^ source.schemata punctuation.separator.key-value.schemata
+#           ^ source.schemata
+#            ^ source.schemata string.quoted.double.schemata
+#             ^^^ source.schemata string.quoted.double.schemata
+#                ^ source.schemata string.quoted.double.schemata
+#                 ^ source.schemata punctuation.section.parens.end.schemata
 >service Orders {
 #^^^^^^^ source.schemata keyword.declaration.schemata
 #       ^ source.schemata
@@ -126,19 +130,21 @@
 #                   ^^^^^ source.schemata entity.name.type.schemata
 #                        ^^^ source.schemata
 #                           ^^^^^^^ source.schemata entity.name.type.schemata
->  #6 sync(catalog.Batch): Receipt  put "/sync"
+>  #6 sync(catalog.Batch[]): Receipt?  put "/sync"
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^ source.schemata entity.name.function.schemata
 #         ^^^^^^^^^ source.schemata
 #                  ^^^^^ source.schemata entity.name.type.schemata
-#                       ^^^ source.schemata
-#                          ^^^^^^^ source.schemata entity.name.type.schemata
-#                                 ^^ source.schemata
-#                                   ^^^ source.schemata keyword.other.verb.schemata
-#                                      ^ source.schemata
-#                                       ^^^^^^^ source.schemata string.quoted.double.schemata
+#                       ^^ source.schemata punctuation.definition.list.schemata
+#                         ^^^ source.schemata
+#                            ^^^^^^^ source.schemata entity.name.type.schemata
+#                                   ^ source.schemata keyword.operator.optional.schemata
+#                                    ^^ source.schemata
+#                                      ^^^ source.schemata keyword.other.verb.schemata
+#                                         ^ source.schemata
+#                                          ^^^^^^^ source.schemata string.quoted.double.schemata
 >  reserved #7, "archive"
 #^^ source.schemata
 #  ^^^^^^^^ source.schemata keyword.control.schemata
@@ -151,16 +157,16 @@
 >}
 #^ source.schemata
 >
->record After { #1 delete: bool }
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^^ source.schemata entity.name.type.schemata
-#            ^^^ source.schemata
-#               ^^ source.schemata constant.numeric.ordinal.schemata
-#                 ^ source.schemata
-#                  ^^^^^^ source.schemata variable.other.member.schemata
-#                        ^ source.schemata punctuation.separator.schemata
+>model After { delete bool }
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^ source.schemata entity.name.type.schemata
+#           ^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
+#             ^ source.schemata
+#              ^^^^^^ source.schemata variable.other.member.schemata
+#                    ^ source.schemata
+#                     ^^^^ source.schemata support.type.builtin.schemata
 #                         ^ source.schemata
-#                          ^^^^ source.schemata support.type.builtin.schemata
-#                              ^^^ source.schemata
+#                          ^ source.schemata punctuation.section.block.end.schemata
 >

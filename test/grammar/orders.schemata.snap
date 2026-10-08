@@ -1,40 +1,61 @@
 >/// Order management for the storefront.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->@sql(schema = "shop")
-#^ source.schemata punctuation.definition.annotation.schemata
-# ^^^ source.schemata storage.type.annotation.schemata
-#    ^^^^^^^^^^ source.schemata
-#              ^ source.schemata string.quoted.double.schemata
-#               ^^^^ source.schemata string.quoted.double.schemata
-#                   ^ source.schemata string.quoted.double.schemata
-#                    ^^ source.schemata
->namespace shop.orders
-#^^^^^^^^^ source.schemata keyword.control.schemata
-#         ^^^^^^^^^^^^^ source.schemata
->
->import shop.customers
+>schema shop.orders @sql(schema: "shop")
 #^^^^^^ source.schemata keyword.control.schemata
-#      ^^^^^^^^^^^^^^^^ source.schemata
+#      ^ source.schemata
+#       ^^^^^^^^^^^ source.schemata entity.name.namespace.schemata
+#                  ^ source.schemata
+#                   ^ source.schemata punctuation.definition.annotation.schemata
+#                    ^^^ source.schemata storage.type.annotation.schemata
+#                       ^ source.schemata punctuation.section.parens.begin.schemata
+#                        ^^^^^^ source.schemata variable.parameter.schemata
+#                              ^ source.schemata punctuation.separator.key-value.schemata
+#                               ^ source.schemata
+#                                ^ source.schemata string.quoted.double.schemata
+#                                 ^^^^ source.schemata string.quoted.double.schemata
+#                                     ^ source.schemata string.quoted.double.schemata
+#                                      ^ source.schemata punctuation.section.parens.end.schemata
 >
->alias Email = string(max = 254, pattern = "^[^@]+@[^@]+$")
+>import shop.customers as cust
+#^^^^^^ source.schemata keyword.control.schemata
+#      ^ source.schemata
+#       ^^^^^^^^^^^^^^ source.schemata entity.name.namespace.schemata
+#                     ^ source.schemata
+#                      ^^ source.schemata keyword.control.schemata
+#                        ^ source.schemata
+#                         ^^^^ source.schemata entity.name.namespace.schemata
+>
+>alias Email = string { max 254, match "^[^@]+@[^@]+$" }
 #^^^^^ source.schemata keyword.declaration.schemata
 #     ^ source.schemata
 #      ^^^^^ source.schemata entity.name.type.schemata
-#           ^^^ source.schemata
+#           ^ source.schemata
+#            ^ source.schemata keyword.operator.assignment.schemata
+#             ^ source.schemata
 #              ^^^^^^ source.schemata support.type.builtin.schemata
-#                    ^^^^^^^ source.schemata
+#                    ^ source.schemata
+#                     ^ source.schemata punctuation.section.braces.begin.schemata
+#                      ^ source.schemata
+#                       ^^^ source.schemata storage.modifier.option.schemata
+#                          ^ source.schemata
 #                           ^^^ source.schemata constant.numeric.schemata
-#                              ^^^^^^^^^^^^ source.schemata
-#                                          ^ source.schemata string.quoted.double.schemata
-#                                           ^^^^^^^^^^^^^ source.schemata string.quoted.double.schemata
-#                                                        ^ source.schemata string.quoted.double.schemata
-#                                                         ^^ source.schemata
+#                              ^ source.schemata punctuation.separator.comma.schemata
+#                               ^ source.schemata
+#                                ^^^^^ source.schemata storage.modifier.option.schemata
+#                                     ^ source.schemata
+#                                      ^ source.schemata string.quoted.double.schemata
+#                                       ^^^^^^^^^^^^^ source.schemata string.quoted.double.schemata
+#                                                    ^ source.schemata string.quoted.double.schemata
+#                                                     ^ source.schemata
+#                                                      ^ source.schemata punctuation.section.braces.end.schemata
 >
 >alias Money = decimal(19, 4)
 #^^^^^ source.schemata keyword.declaration.schemata
 #     ^ source.schemata
 #      ^^^^^ source.schemata entity.name.type.schemata
-#           ^^^ source.schemata
+#           ^ source.schemata
+#            ^ source.schemata keyword.operator.assignment.schemata
+#             ^ source.schemata
 #              ^^^^^^^ source.schemata support.type.builtin.schemata
 #                     ^ source.schemata
 #                      ^^ source.schemata constant.numeric.schemata
@@ -42,192 +63,247 @@
 #                          ^ source.schemata constant.numeric.schemata
 #                           ^^ source.schemata
 >
->enum Status { #1 pending, #2 paid, #3 shipped, #4 cancelled }
+>enum Status { pending paid, shipped cancelled }
 #^^^^ source.schemata keyword.declaration.schemata
 #    ^ source.schemata
 #     ^^^^^^ source.schemata entity.name.type.schemata
-#           ^^^ source.schemata
-#              ^^ source.schemata constant.numeric.ordinal.schemata
-#                ^^^^^^^^^^ source.schemata
-#                          ^^ source.schemata constant.numeric.ordinal.schemata
-#                            ^^^^^^^ source.schemata
-#                                   ^^ source.schemata constant.numeric.ordinal.schemata
-#                                     ^^^^^^^^^^ source.schemata
-#                                               ^^ source.schemata constant.numeric.ordinal.schemata
-#                                                 ^^^^^^^^^^^^^ source.schemata
+#           ^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
+#             ^ source.schemata
+#              ^^^^^^^ source.schemata variable.other.enummember.schemata
+#                     ^ source.schemata
+#                      ^^^^ source.schemata variable.other.enummember.schemata
+#                          ^ source.schemata punctuation.separator.comma.schemata
+#                           ^ source.schemata
+#                            ^^^^^^^ source.schemata variable.other.enummember.schemata
+#                                   ^ source.schemata
+#                                    ^^^^^^^^^ source.schemata variable.other.enummember.schemata
+#                                             ^ source.schemata
+#                                              ^ source.schemata punctuation.section.block.end.schemata
 >
->record Card { #1 last4: string(max = 4) #2 brand: string(max = 32) }
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^ source.schemata entity.name.type.schemata
-#           ^^^ source.schemata
-#              ^^ source.schemata constant.numeric.ordinal.schemata
-#                ^ source.schemata
-#                 ^^^^^ source.schemata variable.other.member.schemata
-#                      ^ source.schemata punctuation.separator.schemata
-#                       ^ source.schemata
-#                        ^^^^^^ source.schemata support.type.builtin.schemata
-#                              ^^^^^^^ source.schemata
-#                                     ^ source.schemata constant.numeric.schemata
-#                                      ^^ source.schemata
-#                                        ^^ source.schemata constant.numeric.ordinal.schemata
+>model Card { last4 string { max 4 }  brand string { max 32 } }
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^ source.schemata entity.name.type.schemata
+#          ^ source.schemata
+#           ^ source.schemata punctuation.section.block.begin.schemata
+#            ^ source.schemata
+#             ^^^^^ source.schemata variable.other.member.schemata
+#                  ^ source.schemata
+#                   ^^^^^^ source.schemata support.type.builtin.schemata
+#                         ^ source.schemata
+#                          ^ source.schemata punctuation.section.braces.begin.schemata
+#                           ^ source.schemata
+#                            ^^^ source.schemata storage.modifier.option.schemata
+#                               ^ source.schemata
+#                                ^ source.schemata constant.numeric.schemata
+#                                 ^ source.schemata
+#                                  ^ source.schemata punctuation.section.braces.end.schemata
+#                                   ^^ source.schemata
+#                                     ^^^^^ source.schemata variable.other.member.schemata
 #                                          ^ source.schemata
-#                                           ^^^^^ source.schemata variable.other.member.schemata
-#                                                ^ source.schemata punctuation.separator.schemata
+#                                           ^^^^^^ source.schemata support.type.builtin.schemata
 #                                                 ^ source.schemata
-#                                                  ^^^^^^ source.schemata support.type.builtin.schemata
-#                                                        ^^^^^^^ source.schemata
-#                                                               ^^ source.schemata constant.numeric.schemata
-#                                                                 ^^^^ source.schemata
+#                                                  ^ source.schemata punctuation.section.braces.begin.schemata
+#                                                   ^ source.schemata
+#                                                    ^^^ source.schemata storage.modifier.option.schemata
+#                                                       ^ source.schemata
+#                                                        ^^ source.schemata constant.numeric.schemata
+#                                                          ^ source.schemata
+#                                                           ^ source.schemata punctuation.section.braces.end.schemata
+#                                                            ^ source.schemata
+#                                                             ^ source.schemata punctuation.section.block.end.schemata
 >
->record BankTransfer { #1 iban: string(max = 34) }
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^^^^^^^^^ source.schemata entity.name.type.schemata
-#                   ^^^ source.schemata
-#                      ^^ source.schemata constant.numeric.ordinal.schemata
-#                        ^ source.schemata
-#                         ^^^^ source.schemata variable.other.member.schemata
-#                             ^ source.schemata punctuation.separator.schemata
-#                              ^ source.schemata
-#                               ^^^^^^ source.schemata support.type.builtin.schemata
-#                                     ^^^^^^^ source.schemata
-#                                            ^^ source.schemata constant.numeric.schemata
-#                                              ^^^^ source.schemata
+>model Cash {}
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^ source.schemata entity.name.type.schemata
+#          ^ source.schemata
+#           ^ source.schemata punctuation.section.block.begin.schemata
+#            ^ source.schemata punctuation.section.block.end.schemata
 >
->record Cash {}
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^ source.schemata entity.name.type.schemata
-#           ^^^^ source.schemata
->
->union Payment = #1 Card | #2 BankTransfer | #3 Cash
+>union Payment = Card | #2 string { max 34 } | Cash
 #^^^^^ source.schemata keyword.declaration.schemata
 #     ^ source.schemata
 #      ^^^^^^^ source.schemata entity.name.type.schemata
-#             ^^^ source.schemata
-#                ^^ source.schemata constant.numeric.ordinal.schemata
-#                  ^ source.schemata
-#                   ^^^^ source.schemata entity.name.type.schemata
-#                       ^^^ source.schemata
-#                          ^^ source.schemata constant.numeric.ordinal.schemata
-#                            ^ source.schemata
-#                             ^^^^^^^^^^^^ source.schemata entity.name.type.schemata
-#                                         ^^^ source.schemata
-#                                            ^^ source.schemata constant.numeric.ordinal.schemata
-#                                              ^ source.schemata
-#                                               ^^^^ source.schemata entity.name.type.schemata
+#             ^ source.schemata
+#              ^ source.schemata keyword.operator.assignment.schemata
+#               ^ source.schemata
+#                ^^^^ source.schemata entity.name.type.schemata
+#                    ^ source.schemata
+#                     ^ source.schemata keyword.operator.union.schemata
+#                      ^ source.schemata
+#                       ^^ source.schemata constant.numeric.ordinal.schemata
+#                         ^ source.schemata
+#                          ^^^^^^ source.schemata support.type.builtin.schemata
+#                                ^ source.schemata
+#                                 ^ source.schemata punctuation.section.braces.begin.schemata
+#                                  ^ source.schemata
+#                                   ^^^ source.schemata storage.modifier.option.schemata
+#                                      ^ source.schemata
+#                                       ^^ source.schemata constant.numeric.schemata
+#                                         ^ source.schemata
+#                                          ^ source.schemata punctuation.section.braces.end.schemata
+#                                           ^ source.schemata
+#                                            ^ source.schemata keyword.operator.union.schemata
+#                                             ^ source.schemata
+#                                              ^^^^ source.schemata entity.name.type.schemata
 >
 >/// A customer's order. One row per checkout.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->record Order {
-#^^^^^^ source.schemata keyword.declaration.schemata
-#      ^ source.schemata
-#       ^^^^^ source.schemata entity.name.type.schemata
-#            ^^^ source.schemata
->  @sql(key) #1  id:        uuid
+>model Order {
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^ source.schemata entity.name.type.schemata
+#           ^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
+>  #1  id        uuid     { id }
 #^^ source.schemata
-#  ^ source.schemata punctuation.definition.annotation.schemata
-#   ^^^ source.schemata storage.type.annotation.schemata
-#      ^^^^^^ source.schemata
-#            ^^ source.schemata constant.numeric.ordinal.schemata
-#              ^^ source.schemata
-#                ^^ source.schemata variable.other.member.schemata
-#                  ^ source.schemata punctuation.separator.schemata
-#                   ^^^^^^^^ source.schemata
-#                           ^^^^ source.schemata support.type.builtin.schemata
->  #2  customer:  Customer
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^^ source.schemata
+#      ^^ source.schemata variable.other.member.schemata
+#        ^^^^^^^^ source.schemata
+#                ^^^^ source.schemata support.type.builtin.schemata
+#                    ^^^^^ source.schemata
+#                         ^ source.schemata punctuation.section.braces.begin.schemata
+#                          ^ source.schemata
+#                           ^^ source.schemata storage.modifier.option.schemata
+#                             ^ source.schemata
+#                              ^ source.schemata punctuation.section.braces.end.schemata
+>  #2  customer  cust.Customer @relation(onDelete: cascade)
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
 #      ^^^^^^^^ source.schemata variable.other.member.schemata
-#              ^ source.schemata punctuation.separator.schemata
-#               ^^ source.schemata
-#                 ^^^^^^^^ source.schemata entity.name.type.schemata
->  #3  status:    Status = pending
+#              ^^ source.schemata
+#                ^^^^ source.schemata entity.name.type.schemata
+#                    ^ source.schemata
+#                     ^^^^^^^^ source.schemata entity.name.type.schemata
+#                             ^ source.schemata
+#                              ^ source.schemata punctuation.definition.annotation.schemata
+#                               ^^^^^^^^ source.schemata storage.type.annotation.schemata
+#                                       ^ source.schemata punctuation.section.parens.begin.schemata
+#                                        ^^^^^^^^ source.schemata variable.parameter.schemata
+#                                                ^ source.schemata punctuation.separator.key-value.schemata
+#                                                 ^ source.schemata
+#                                                  ^^^^^^^ source.schemata variable.other.schemata
+#                                                         ^ source.schemata punctuation.section.parens.end.schemata
+>  #3  status    Status   = pending
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
 #      ^^^^^^ source.schemata variable.other.member.schemata
-#            ^ source.schemata punctuation.separator.schemata
-#             ^^^^ source.schemata
-#                 ^^^^^^ source.schemata entity.name.type.schemata
-#                       ^^^^^^^^^^^ source.schemata
->  #4  lines:     list<Line>(min = 1)
+#            ^^^^ source.schemata
+#                ^^^^^^ source.schemata entity.name.type.schemata
+#                      ^^^ source.schemata
+#                         ^ source.schemata keyword.operator.assignment.schemata
+#                          ^ source.schemata
+#                           ^^^^^^^ source.schemata variable.other.constant.schemata
+>  #4  lines     Line[]   { minItems 1, maxItems 10 }
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
 #      ^^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^^^^^ source.schemata
-#                 ^^^^ source.schemata support.type.builtin.schemata
-#                     ^ source.schemata
-#                      ^^^^ source.schemata entity.name.type.schemata
-#                          ^^^^^^^^ source.schemata
-#                                  ^ source.schemata constant.numeric.schemata
-#                                   ^^ source.schemata
->  #5  total:     Money
+#           ^^^^^ source.schemata
+#                ^^^^ source.schemata entity.name.type.schemata
+#                    ^^ source.schemata punctuation.definition.list.schemata
+#                      ^^^ source.schemata
+#                         ^ source.schemata punctuation.section.braces.begin.schemata
+#                          ^ source.schemata
+#                           ^^^^^^^^ source.schemata storage.modifier.option.schemata
+#                                   ^ source.schemata
+#                                    ^ source.schemata constant.numeric.schemata
+#                                     ^ source.schemata punctuation.separator.comma.schemata
+#                                      ^ source.schemata
+#                                       ^^^^^^^^ source.schemata storage.modifier.option.schemata
+#                                               ^ source.schemata
+#                                                ^^ source.schemata constant.numeric.schemata
+#                                                  ^ source.schemata
+#                                                   ^ source.schemata punctuation.section.braces.end.schemata
+>  #5  total     Money
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
 #      ^^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^^^^^ source.schemata
-#                 ^^^^^ source.schemata entity.name.type.schemata
->  #6  payment:   Payment
+#           ^^^^^ source.schemata
+#                ^^^^^ source.schemata entity.name.type.schemata
+>  #6  shipping  Address  { embed }
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
-#      ^^^^^^^ source.schemata variable.other.member.schemata
-#             ^ source.schemata punctuation.separator.schemata
-#              ^^^ source.schemata
-#                 ^^^^^^^ source.schemata entity.name.type.schemata
->  @sql(strategy = embed) #7  shipping:  Address
-#^^ source.schemata
-#  ^ source.schemata punctuation.definition.annotation.schemata
-#   ^^^ source.schemata storage.type.annotation.schemata
-#      ^^^^^^^^^^^^^^^^^^^ source.schemata
-#                         ^^ source.schemata constant.numeric.ordinal.schemata
-#                           ^^ source.schemata
-#                             ^^^^^^^^ source.schemata variable.other.member.schemata
-#                                     ^ source.schemata punctuation.separator.schemata
-#                                      ^^ source.schemata
-#                                        ^^^^^^^ source.schemata entity.name.type.schemata
->  #8  placed_at: instant
-#^^ source.schemata
-#  ^^ source.schemata constant.numeric.ordinal.schemata
-#    ^^ source.schemata
-#      ^^^^^^^^^ source.schemata variable.other.member.schemata
-#               ^ source.schemata punctuation.separator.schemata
-#                ^ source.schemata
-#                 ^^^^^^^ source.schemata support.type.builtin.schemata
->  #9  note:      string(max = 500)?
+#      ^^^^^^^^ source.schemata variable.other.member.schemata
+#              ^^ source.schemata
+#                ^^^^^^^ source.schemata entity.name.type.schemata
+#                       ^^ source.schemata
+#                         ^ source.schemata punctuation.section.braces.begin.schemata
+#                          ^ source.schemata
+#                           ^^^^^ source.schemata storage.modifier.option.schemata
+#                                ^ source.schemata
+#                                 ^ source.schemata punctuation.section.braces.end.schemata
+>  #7  note      string?  { max 500 }
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^^ source.schemata
 #      ^^^^ source.schemata variable.other.member.schemata
-#          ^ source.schemata punctuation.separator.schemata
-#           ^^^^^^ source.schemata
-#                 ^^^^^^ source.schemata support.type.builtin.schemata
-#                       ^^^^^^^ source.schemata
-#                              ^^^ source.schemata constant.numeric.schemata
-#                                 ^^^ source.schemata
->  @deprecated("use placed_at") #10 created:   instant?
+#          ^^^^^^ source.schemata
+#                ^^^^^^ source.schemata support.type.builtin.schemata
+#                      ^ source.schemata keyword.operator.optional.schemata
+#                       ^^ source.schemata
+#                         ^ source.schemata punctuation.section.braces.begin.schemata
+#                          ^ source.schemata
+#                           ^^^ source.schemata storage.modifier.option.schemata
+#                              ^ source.schemata
+#                               ^^^ source.schemata constant.numeric.schemata
+#                                  ^ source.schemata
+#                                   ^ source.schemata punctuation.section.braces.end.schemata
+>  @deprecated("use placed_at")
 #^^ source.schemata
 #  ^ source.schemata punctuation.definition.annotation.schemata
 #   ^^^^^^^^^^ source.schemata storage.type.annotation.schemata
-#             ^ source.schemata
+#             ^ source.schemata punctuation.section.parens.begin.schemata
 #              ^ source.schemata string.quoted.double.schemata
 #               ^^^^^^^^^^^^^ source.schemata string.quoted.double.schemata
 #                            ^ source.schemata string.quoted.double.schemata
-#                             ^^ source.schemata
-#                               ^^^ source.schemata constant.numeric.ordinal.schemata
-#                                  ^ source.schemata
-#                                   ^^^^^^^ source.schemata variable.other.member.schemata
-#                                          ^ source.schemata punctuation.separator.schemata
-#                                           ^^^ source.schemata
-#                                              ^^^^^^^ source.schemata support.type.builtin.schemata
-#                                                     ^^ source.schemata
+#                             ^ source.schemata punctuation.section.parens.end.schemata
+>  #8  created   instant?
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^^ source.schemata
+#      ^^^^^^^ source.schemata variable.other.member.schemata
+#             ^^^ source.schemata
+#                ^^^^^^^ source.schemata support.type.builtin.schemata
+#                       ^ source.schemata keyword.operator.optional.schemata
+>  #9  holes     string?[]?
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^^ source.schemata
+#      ^^^^^ source.schemata variable.other.member.schemata
+#           ^^^^^ source.schemata
+#                ^^^^^^ source.schemata support.type.builtin.schemata
+#                      ^ source.schemata keyword.operator.optional.schemata
+#                       ^^ source.schemata punctuation.definition.list.schemata
+#                         ^ source.schemata keyword.operator.optional.schemata
+>  #10 counts    map<string { max 20 }, int32?>
+#^^ source.schemata
+#  ^^^ source.schemata constant.numeric.ordinal.schemata
+#     ^ source.schemata
+#      ^^^^^^ source.schemata variable.other.member.schemata
+#            ^^^^ source.schemata
+#                ^^^ source.schemata support.type.builtin.schemata
+#                   ^ source.schemata punctuation.definition.typeparameters.begin.schemata
+#                    ^^^^^^ source.schemata support.type.builtin.schemata
+#                          ^ source.schemata
+#                           ^ source.schemata punctuation.section.braces.begin.schemata
+#                            ^ source.schemata
+#                             ^^^ source.schemata storage.modifier.option.schemata
+#                                ^ source.schemata
+#                                 ^^ source.schemata constant.numeric.schemata
+#                                   ^ source.schemata
+#                                    ^ source.schemata punctuation.section.braces.end.schemata
+#                                     ^^ source.schemata
+#                                       ^^^^^ source.schemata support.type.builtin.schemata
+#                                            ^ source.schemata keyword.operator.optional.schemata
+#                                             ^ source.schemata punctuation.definition.typeparameters.end.schemata
 >  reserved #11, "legacy_ref"
 #^^ source.schemata
 #  ^^^^^^^^ source.schemata keyword.control.schemata
@@ -241,81 +317,109 @@
 >  /// One purchasable item.
 #^^ source.schemata
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->  record Line { #1 sku: string(max = 64) #2 quantity: int32(min = 1) #3 price: Money }
+>  model Line { sku string { max 64 }  quantity int32 { min 1 }  price Money }
 #^^ source.schemata
-#  ^^^^^^ source.schemata keyword.declaration.schemata
-#        ^ source.schemata
-#         ^^^^ source.schemata entity.name.type.schemata
-#             ^^^ source.schemata
-#                ^^ source.schemata constant.numeric.ordinal.schemata
+#  ^^^^^ source.schemata keyword.declaration.schemata
+#       ^ source.schemata
+#        ^^^^ source.schemata entity.name.type.schemata
+#            ^ source.schemata
+#             ^ source.schemata punctuation.section.block.begin.schemata
+#              ^ source.schemata
+#               ^^^ source.schemata variable.other.member.schemata
 #                  ^ source.schemata
-#                   ^^^ source.schemata variable.other.member.schemata
-#                      ^ source.schemata punctuation.separator.schemata
-#                       ^ source.schemata
-#                        ^^^^^^ source.schemata support.type.builtin.schemata
-#                              ^^^^^^^ source.schemata
-#                                     ^^ source.schemata constant.numeric.schemata
-#                                       ^^ source.schemata
-#                                         ^^ source.schemata constant.numeric.ordinal.schemata
-#                                           ^ source.schemata
-#                                            ^^^^^^^^ source.schemata variable.other.member.schemata
-#                                                    ^ source.schemata punctuation.separator.schemata
-#                                                     ^ source.schemata
-#                                                      ^^^^^ source.schemata support.type.builtin.schemata
-#                                                           ^^^^^^^ source.schemata
-#                                                                  ^ source.schemata constant.numeric.schemata
-#                                                                   ^^ source.schemata
-#                                                                     ^^ source.schemata constant.numeric.ordinal.schemata
-#                                                                       ^ source.schemata
-#                                                                        ^^^^^ source.schemata variable.other.member.schemata
-#                                                                             ^ source.schemata punctuation.separator.schemata
-#                                                                              ^ source.schemata
-#                                                                               ^^^^^ source.schemata entity.name.type.schemata
-#                                                                                    ^^^ source.schemata
+#                   ^^^^^^ source.schemata support.type.builtin.schemata
+#                         ^ source.schemata
+#                          ^ source.schemata punctuation.section.braces.begin.schemata
+#                           ^ source.schemata
+#                            ^^^ source.schemata storage.modifier.option.schemata
+#                               ^ source.schemata
+#                                ^^ source.schemata constant.numeric.schemata
+#                                  ^ source.schemata
+#                                   ^ source.schemata punctuation.section.braces.end.schemata
+#                                    ^^ source.schemata
+#                                      ^^^^^^^^ source.schemata variable.other.member.schemata
+#                                              ^ source.schemata
+#                                               ^^^^^ source.schemata support.type.builtin.schemata
+#                                                    ^ source.schemata
+#                                                     ^ source.schemata punctuation.section.braces.begin.schemata
+#                                                      ^ source.schemata
+#                                                       ^^^ source.schemata storage.modifier.option.schemata
+#                                                          ^ source.schemata
+#                                                           ^ source.schemata constant.numeric.schemata
+#                                                            ^ source.schemata
+#                                                             ^ source.schemata punctuation.section.braces.end.schemata
+#                                                              ^^ source.schemata
+#                                                                ^^^^^ source.schemata variable.other.member.schemata
+#                                                                     ^ source.schemata
+#                                                                      ^^^^^ source.schemata entity.name.type.schemata
+#                                                                           ^ source.schemata
+#                                                                            ^ source.schemata punctuation.section.block.end.schemata
 >
->  record Address {
+>  model Address {
 #^^ source.schemata
-#  ^^^^^^ source.schemata keyword.declaration.schemata
-#        ^ source.schemata
-#         ^^^^^^^ source.schemata entity.name.type.schemata
-#                ^^^ source.schemata
->    #1 street:  string(max = 200)
-#^^^^ source.schemata
-#    ^^ source.schemata constant.numeric.ordinal.schemata
-#      ^ source.schemata
-#       ^^^^^^ source.schemata variable.other.member.schemata
-#             ^ source.schemata punctuation.separator.schemata
-#              ^^ source.schemata
-#                ^^^^^^ source.schemata support.type.builtin.schemata
-#                      ^^^^^^^ source.schemata
-#                             ^^^ source.schemata constant.numeric.schemata
-#                                ^^ source.schemata
->    #2 city:    string(max = 100)
-#^^^^ source.schemata
-#    ^^ source.schemata constant.numeric.ordinal.schemata
-#      ^ source.schemata
-#       ^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^^^^ source.schemata
-#                ^^^^^^ source.schemata support.type.builtin.schemata
-#                      ^^^^^^^ source.schemata
-#                             ^^^ source.schemata constant.numeric.schemata
-#                                ^^ source.schemata
->    #3 country: string(min = 2, max = 2)
-#^^^^ source.schemata
-#    ^^ source.schemata constant.numeric.ordinal.schemata
-#      ^ source.schemata
-#       ^^^^^^^ source.schemata variable.other.member.schemata
-#              ^ source.schemata punctuation.separator.schemata
+#  ^^^^^ source.schemata keyword.declaration.schemata
+#       ^ source.schemata
+#        ^^^^^^^ source.schemata entity.name.type.schemata
 #               ^ source.schemata
-#                ^^^^^^ source.schemata support.type.builtin.schemata
-#                      ^^^^^^^ source.schemata
-#                             ^ source.schemata constant.numeric.schemata
-#                              ^^^^^^^^ source.schemata
-#                                      ^ source.schemata constant.numeric.schemata
-#                                       ^^ source.schemata
->  }
+#                ^ source.schemata punctuation.section.block.begin.schemata
+>    street  string { max 200 }
 #^^^^ source.schemata
->}
+#    ^^^^^^ source.schemata variable.other.member.schemata
+#          ^^ source.schemata
+#            ^^^^^^ source.schemata support.type.builtin.schemata
+#                  ^ source.schemata
+#                   ^ source.schemata punctuation.section.braces.begin.schemata
+#                    ^ source.schemata
+#                     ^^^ source.schemata storage.modifier.option.schemata
+#                        ^ source.schemata
+#                         ^^^ source.schemata constant.numeric.schemata
+#                            ^ source.schemata
+#                             ^ source.schemata punctuation.section.braces.end.schemata
+>    country string { min 2, max 2 }
+#^^^^ source.schemata
+#    ^^^^^^^ source.schemata variable.other.member.schemata
+#           ^ source.schemata
+#            ^^^^^^ source.schemata support.type.builtin.schemata
+#                  ^ source.schemata
+#                   ^ source.schemata punctuation.section.braces.begin.schemata
+#                    ^ source.schemata
+#                     ^^^ source.schemata storage.modifier.option.schemata
+#                        ^ source.schemata
+#                         ^ source.schemata constant.numeric.schemata
+#                          ^ source.schemata punctuation.separator.comma.schemata
+#                           ^ source.schemata
+#                            ^^^ source.schemata storage.modifier.option.schemata
+#                               ^ source.schemata
+#                                ^ source.schemata constant.numeric.schemata
+#                                 ^ source.schemata
+#                                  ^ source.schemata punctuation.section.braces.end.schemata
+>  }
 #^^ source.schemata
+#  ^ source.schemata punctuation.section.block.end.schemata
+>
+>  @@index(customer, status)
+#^^ source.schemata
+#  ^^ source.schemata punctuation.definition.annotation.schemata
+#    ^^^^^ source.schemata storage.type.annotation.schemata
+#         ^ source.schemata punctuation.section.parens.begin.schemata
+#          ^^^^^^^^ source.schemata variable.other.schemata
+#                  ^^ source.schemata
+#                    ^^^^^^ source.schemata variable.other.schemata
+#                          ^ source.schemata punctuation.section.parens.end.schemata
+>  @@sql(unique: (customer, note))
+#^^ source.schemata
+#  ^^ source.schemata punctuation.definition.annotation.schemata
+#    ^^^ source.schemata storage.type.annotation.schemata
+#       ^ source.schemata punctuation.section.parens.begin.schemata
+#        ^^^^^^ source.schemata variable.parameter.schemata
+#              ^ source.schemata punctuation.separator.key-value.schemata
+#               ^ source.schemata
+#                ^ source.schemata
+#                 ^^^^^^^^ source.schemata variable.other.schemata
+#                         ^^ source.schemata
+#                           ^^^^ source.schemata variable.other.schemata
+#                               ^ source.schemata
+#                                ^ source.schemata punctuation.section.parens.end.schemata
+>}
+#^ source.schemata punctuation.section.block.end.schemata
 >

@@ -1,7 +1,7 @@
 export type Version = [number, number, number];
 
-/** The first version of `schemata` that has the `lsp` command. */
-export const MINIMUM: Version = [0, 8, 0];
+/** The first version of `schemata` that reads the 2.0 syntax this extension highlights. */
+export const MINIMUM: Version = [2, 0, 0];
 
 /** Reads the output of `schemata --version` (`schemata 0.8.0`, or `0.8.0-dev+sha` for a build). */
 export function parseVersion(output: string): Version | undefined {
@@ -15,4 +15,14 @@ export function supports(version: Version): boolean {
     if (version[i] !== MINIMUM[i]) return version[i] > MINIMUM[i];
   }
   return true;
+}
+
+/**
+ * Whether `schemata --version` output names a server this extension starts. A developer's own build
+ * (`-dev+sha`) opts out of the floor; a tagged version, a release candidate included, must reach it.
+ */
+export function accepts(output: string): boolean {
+  const version = parseVersion(output);
+  if (version === undefined) return false;
+  return /^schemata \d+\.\d+\.\d+(?:-rc\.\d+)?-dev\+/.test(output.trim()) || supports(version);
 }

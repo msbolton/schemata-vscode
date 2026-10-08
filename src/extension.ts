@@ -1,7 +1,7 @@
 import { execFile } from "node:child_process";
 import * as vscode from "vscode";
 import { LanguageClient, LanguageClientOptions, ServerOptions } from "vscode-languageclient/node";
-import { MINIMUM, parseVersion, supports } from "./version";
+import { MINIMUM, accepts } from "./version";
 
 let client: LanguageClient | undefined;
 
@@ -43,8 +43,7 @@ async function start(): Promise<void> {
     );
     return;
   }
-  const version = parseVersion(output);
-  if (version === undefined || !supports(version)) {
+  if (!accepts(output)) {
     void vscode.window.showErrorMessage(
       `Schemata: "${path}" is ${output.trim() || "an unknown version"}; the language server needs ` +
         `${MINIMUM.join(".")} or later. Upgrade it, or set schemata.path to a newer binary.`,
