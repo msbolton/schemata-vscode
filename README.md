@@ -6,8 +6,10 @@ formatting, and the outline.
 
 ## Install
 
-1. Install the compiler, version 0.8.0 or later: `brew install msbolton/schemata/schemata`, or a
-   binary from the [releases](https://github.com/msbolton/Schemata/releases).
+1. Install the compiler, version 2.0.0 or later: `brew install msbolton/schemata/schemata`, or a
+   binary from the [releases](https://github.com/msbolton/Schemata/releases). This extension
+   highlights the 2.0 syntax and starts the language server only from a 2.0.0 or later binary;
+   `schemata upgrade` rewrites 1.x files to 2.0. For 1.x schemas, stay on extension 1.2.0.
 2. Download `schemata-vscode-<version>.vsix` from this repository's releases and run
    "Extensions: Install from VSIX…" in VS Code.
 

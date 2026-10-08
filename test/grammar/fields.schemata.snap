@@ -1,90 +1,166 @@
->namespace shop.events
-#^^^^^^^^^ source.schemata keyword.control.schemata
-#         ^^^^^^^^^^^^^ source.schemata
->
->// Field names that look like builtin types are still field names.
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
->record Event {
-#^^^^^^ source.schemata keyword.declaration.schemata
+>schema shop.events
+#^^^^^^ source.schemata keyword.control.schemata
 #      ^ source.schemata
-#       ^^^^^ source.schemata entity.name.type.schemata
-#            ^^^ source.schemata
->  #4 date:   date
+#       ^^^^^^^^^^^ source.schemata entity.name.namespace.schemata
+>
+>// Field and option names that look like builtin types or options are still names.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
+>model Event {
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^ source.schemata entity.name.type.schemata
+#           ^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
+>  #1 date   date
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^ source.schemata variable.other.member.schemata
-#         ^ source.schemata punctuation.separator.schemata
-#          ^^^ source.schemata
-#             ^^^^ source.schemata support.type.builtin.schemata
->  #5 string: string /* a label */
+#         ^^^ source.schemata
+#            ^^^^ source.schemata support.type.builtin.schemata
+>  #2 string string /* a label */
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^ source.schemata
-#             ^^^^^^ source.schemata support.type.builtin.schemata
+#           ^ source.schemata
+#            ^^^^^^ source.schemata support.type.builtin.schemata
+#                  ^ source.schemata
+#                   ^^ source.schemata comment.block.schemata
+#                     ^^^^^^^^^ source.schemata comment.block.schemata
+#                              ^^ source.schemata comment.block.schemata
+>  #3 index  int32 { index }
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^ source.schemata
+#     ^^^^^ source.schemata variable.other.member.schemata
+#          ^^ source.schemata
+#            ^^^^^ source.schemata support.type.builtin.schemata
+#                 ^ source.schemata
+#                  ^ source.schemata punctuation.section.braces.begin.schemata
 #                   ^ source.schemata
-#                    ^^ source.schemata comment.block.schemata
-#                      ^^^^^^^^^ source.schemata comment.block.schemata
-#                               ^^ source.schemata comment.block.schemata
->  #6 active: bool = true
+#                    ^^^^^ source.schemata storage.modifier.option.schemata
+#                         ^ source.schemata
+#                          ^ source.schemata punctuation.section.braces.end.schemata
+>  #4 active bool = true
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^ source.schemata
-#             ^^^^ source.schemata support.type.builtin.schemata
-#                 ^^^ source.schemata
-#                    ^^^^ source.schemata constant.language.schemata
->  #7 offset: int32 = -5
+#           ^ source.schemata
+#            ^^^^ source.schemata support.type.builtin.schemata
+#                ^ source.schemata
+#                 ^ source.schemata keyword.operator.assignment.schemata
+#                  ^ source.schemata
+#                   ^^^^ source.schemata constant.language.schemata
+>  #5 offset int32 = -5
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^^^ source.schemata variable.other.member.schemata
-#           ^ source.schemata punctuation.separator.schemata
-#            ^ source.schemata
-#             ^^^^^ source.schemata support.type.builtin.schemata
-#                  ^^^ source.schemata
-#                     ^^ source.schemata constant.numeric.schemata
->  #8 rate:   float64 = 1.5
+#           ^ source.schemata
+#            ^^^^^ source.schemata support.type.builtin.schemata
+#                 ^ source.schemata
+#                  ^ source.schemata keyword.operator.assignment.schemata
+#                   ^ source.schemata
+#                    ^^ source.schemata constant.numeric.schemata
+>  #6 rate   float64 { min -1.5, max 1.5 } = 1.5
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
 #     ^^^^ source.schemata variable.other.member.schemata
-#         ^ source.schemata punctuation.separator.schemata
-#          ^^^ source.schemata
-#             ^^^^^^^ source.schemata support.type.builtin.schemata
-#                    ^^^ source.schemata
-#                       ^^^ source.schemata constant.numeric.schemata
->  @deprecated("say \"hi\"") #9 note: string?
+#         ^^^ source.schemata
+#            ^^^^^^^ source.schemata support.type.builtin.schemata
+#                   ^ source.schemata
+#                    ^ source.schemata punctuation.section.braces.begin.schemata
+#                     ^ source.schemata
+#                      ^^^ source.schemata storage.modifier.option.schemata
+#                         ^ source.schemata
+#                          ^^^^ source.schemata constant.numeric.schemata
+#                              ^ source.schemata punctuation.separator.comma.schemata
+#                               ^ source.schemata
+#                                ^^^ source.schemata storage.modifier.option.schemata
+#                                   ^ source.schemata
+#                                    ^^^ source.schemata constant.numeric.schemata
+#                                       ^ source.schemata
+#                                        ^ source.schemata punctuation.section.braces.end.schemata
+#                                         ^ source.schemata
+#                                          ^ source.schemata keyword.operator.assignment.schemata
+#                                           ^ source.schemata
+#                                            ^^^ source.schemata constant.numeric.schemata
+>  #7 note   string? @deprecated("say \"hi\"")
 #^^ source.schemata
-#  ^ source.schemata punctuation.definition.annotation.schemata
-#   ^^^^^^^^^^ source.schemata storage.type.annotation.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^ source.schemata
+#     ^^^^ source.schemata variable.other.member.schemata
+#         ^^^ source.schemata
+#            ^^^^^^ source.schemata support.type.builtin.schemata
+#                  ^ source.schemata keyword.operator.optional.schemata
+#                   ^ source.schemata
+#                    ^ source.schemata punctuation.definition.annotation.schemata
+#                     ^^^^^^^^^^ source.schemata storage.type.annotation.schemata
+#                               ^ source.schemata punctuation.section.parens.begin.schemata
+#                                ^ source.schemata string.quoted.double.schemata
+#                                 ^^^^ source.schemata string.quoted.double.schemata
+#                                     ^^ source.schemata string.quoted.double.schemata constant.character.escape.schemata
+#                                       ^^ source.schemata string.quoted.double.schemata
+#                                         ^^ source.schemata string.quoted.double.schemata constant.character.escape.schemata
+#                                           ^ source.schemata string.quoted.double.schemata
+#                                            ^ source.schemata punctuation.section.parens.end.schemata
+>  #8 kind   enum { a b c } = a
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^ source.schemata
+#     ^^^^ source.schemata variable.other.member.schemata
+#         ^^^ source.schemata
+#            ^^^^ source.schemata keyword.control.schemata
+#                ^ source.schemata
+#                 ^ source.schemata punctuation.section.block.begin.schemata
+#                  ^ source.schemata
+#                   ^ source.schemata variable.other.enummember.schemata
+#                    ^ source.schemata
+#                     ^ source.schemata variable.other.enummember.schemata
+#                      ^ source.schemata
+#                       ^ source.schemata variable.other.enummember.schemata
+#                        ^ source.schemata
+#                         ^ source.schemata punctuation.section.block.end.schemata
+#                          ^ source.schemata
+#                           ^ source.schemata keyword.operator.assignment.schemata
+#                            ^ source.schemata
+#                             ^ source.schemata variable.other.constant.schemata
+>  #9 place  { lat float64  lon float64 }[] { minItems 1 }
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^ source.schemata
+#     ^^^^^ source.schemata variable.other.member.schemata
+#          ^^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
 #             ^ source.schemata
-#              ^ source.schemata string.quoted.double.schemata
-#               ^^^^ source.schemata string.quoted.double.schemata
-#                   ^^ source.schemata string.quoted.double.schemata constant.character.escape.schemata
-#                     ^^ source.schemata string.quoted.double.schemata
-#                       ^^ source.schemata string.quoted.double.schemata constant.character.escape.schemata
-#                         ^ source.schemata string.quoted.double.schemata
-#                          ^^ source.schemata
-#                            ^^ source.schemata constant.numeric.ordinal.schemata
+#              ^^^ source.schemata variable.other.member.schemata
+#                 ^ source.schemata
+#                  ^^^^^^^ source.schemata support.type.builtin.schemata
+#                         ^^ source.schemata
+#                           ^^^ source.schemata variable.other.member.schemata
 #                              ^ source.schemata
-#                               ^^^^ source.schemata variable.other.member.schemata
-#                                   ^ source.schemata punctuation.separator.schemata
-#                                    ^ source.schemata
-#                                     ^^^^^^ source.schemata support.type.builtin.schemata
-#                                           ^^ source.schemata
->  reserved #1..#3
+#                               ^^^^^^^ source.schemata support.type.builtin.schemata
+#                                      ^ source.schemata
+#                                       ^ source.schemata punctuation.section.block.end.schemata
+#                                        ^^ source.schemata punctuation.definition.list.schemata
+#                                          ^ source.schemata
+#                                           ^ source.schemata punctuation.section.braces.begin.schemata
+#                                            ^ source.schemata
+#                                             ^^^^^^^^ source.schemata storage.modifier.option.schemata
+#                                                     ^ source.schemata
+#                                                      ^ source.schemata constant.numeric.schemata
+#                                                       ^ source.schemata
+#                                                        ^ source.schemata punctuation.section.braces.end.schemata
+>  reserved #10..#12
 #^^ source.schemata
 #  ^^^^^^^^ source.schemata keyword.control.schemata
 #          ^ source.schemata
-#           ^^ source.schemata constant.numeric.ordinal.schemata
-#             ^^ source.schemata
-#               ^^ source.schemata constant.numeric.ordinal.schemata
+#           ^^^ source.schemata constant.numeric.ordinal.schemata
+#              ^^ source.schemata keyword.operator.range.schemata
+#                ^^^ source.schemata constant.numeric.ordinal.schemata
 >}
-#^^ source.schemata
+#^ source.schemata punctuation.section.block.end.schemata
 >

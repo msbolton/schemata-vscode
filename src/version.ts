@@ -1,7 +1,7 @@
 export type Version = [number, number, number];
 
-/** The first version of `schemata` that has the `lsp` command. */
-export const MINIMUM: Version = [0, 8, 0];
+/** The first version of `schemata` that reads the 2.0 syntax this extension highlights. */
+export const MINIMUM: Version = [2, 0, 0];
 
 /** Reads the output of `schemata --version` (`schemata 0.8.0`, or `0.8.0-dev+sha` for a build). */
 export function parseVersion(output: string): Version | undefined {
