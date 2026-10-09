@@ -1,0 +1,62 @@
+>schema shop
+#^^^^^^ source.schemata keyword.control.schemata
+#      ^ source.schemata
+#       ^^^^ source.schemata entity.name.namespace.schemata
+>
+>// Pinned stamp ordinals are ordinals inside the attribute parentheses.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
+>model Order {
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^^ source.schemata entity.name.type.schemata
+#           ^ source.schemata
+#            ^ source.schemata punctuation.section.block.begin.schemata
+>  #1 id uuid { id }
+#^^ source.schemata
+#  ^^ source.schemata constant.numeric.ordinal.schemata
+#    ^ source.schemata
+#     ^^ source.schemata variable.other.member.schemata
+#       ^ source.schemata
+#        ^^^^ source.schemata support.type.builtin.schemata
+#            ^ source.schemata
+#             ^ source.schemata punctuation.section.braces.begin.schemata
+#              ^ source.schemata
+#               ^^ source.schemata storage.modifier.option.schemata
+#                 ^ source.schemata
+#                  ^ source.schemata punctuation.section.braces.end.schemata
+>  @@timestamps(#11, #12)
+#^^ source.schemata
+#  ^^ source.schemata punctuation.definition.annotation.schemata
+#    ^^^^^^^^^^ source.schemata storage.type.annotation.schemata
+#              ^ source.schemata punctuation.section.parens.begin.schemata
+#               ^^^ source.schemata constant.numeric.ordinal.schemata
+#                  ^^ source.schemata
+#                    ^^^ source.schemata constant.numeric.ordinal.schemata
+#                       ^ source.schemata punctuation.section.parens.end.schemata
+>}
+#^ source.schemata punctuation.section.block.end.schemata
+>
+>model Note {
+#^^^^^ source.schemata keyword.declaration.schemata
+#     ^ source.schemata
+#      ^^^^ source.schemata entity.name.type.schemata
+#          ^ source.schemata
+#           ^ source.schemata punctuation.section.block.begin.schemata
+>  id uuid { id }
+#^^ source.schemata
+#  ^^ source.schemata variable.other.member.schemata
+#    ^ source.schemata
+#     ^^^^ source.schemata support.type.builtin.schemata
+#         ^ source.schemata
+#          ^ source.schemata punctuation.section.braces.begin.schemata
+#           ^ source.schemata
+#            ^^ source.schemata storage.modifier.option.schemata
+#              ^ source.schemata
+#               ^ source.schemata punctuation.section.braces.end.schemata
+>  @@timestamps
+#^^ source.schemata
+#  ^^ source.schemata punctuation.definition.annotation.schemata
+#    ^^^^^^^^^^ source.schemata storage.type.annotation.schemata
+>}
+#^ source.schemata punctuation.section.block.end.schemata
+>

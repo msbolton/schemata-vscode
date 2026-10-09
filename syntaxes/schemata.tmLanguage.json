@@ -131,6 +131,9 @@
               "include": "#attribute-key"
             },
             {
+              "include": "#ordinal"
+            },
+            {
               "include": "#number"
             },
             {
