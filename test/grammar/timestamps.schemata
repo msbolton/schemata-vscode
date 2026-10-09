@@ -1,0 +1,12 @@
+schema shop
+
+// Pinned stamp ordinals are ordinals inside the attribute parentheses.
+model Order {
+  #1 id uuid { id }
+  @@timestamps(#11, #12)
+}
+
+model Note {
+  id uuid { id }
+  @@timestamps
+}
