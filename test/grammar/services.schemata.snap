@@ -24,9 +24,9 @@
 #                              ^ source.schemata
 #                               ^ source.schemata punctuation.section.block.end.schemata
 >
->// Outside a service, a verb is an ordinary field name.
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
->model Request { get string  post bool }
+>// Outside a service, a verb or `errors` is an ordinary field name.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
+>model Request { get string  post bool  errors string[] }
 #^^^^^ source.schemata keyword.declaration.schemata
 #     ^ source.schemata
 #      ^^^^^^^ source.schemata entity.name.type.schemata
@@ -40,8 +40,13 @@
 #                            ^^^^ source.schemata variable.other.member.schemata
 #                                ^ source.schemata
 #                                 ^^^^ source.schemata support.type.builtin.schemata
-#                                     ^ source.schemata
-#                                      ^ source.schemata punctuation.section.block.end.schemata
+#                                     ^^ source.schemata
+#                                       ^^^^^^ source.schemata variable.other.member.schemata
+#                                             ^ source.schemata
+#                                              ^^^^^^ source.schemata support.type.builtin.schemata
+#                                                    ^^ source.schemata punctuation.definition.list.schemata
+#                                                      ^ source.schemata
+#                                                       ^ source.schemata punctuation.section.block.end.schemata
 >
 >/// Place and read orders.
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
@@ -62,10 +67,25 @@
 #        ^^^^^^ source.schemata entity.name.type.schemata
 #              ^ source.schemata
 #               ^^ source.schemata
+>  errors { 400 Problem  default Problem }
+#^^ source.schemata
+#  ^^^^^^ source.schemata keyword.control.schemata
+#        ^ source.schemata
+#         ^ source.schemata punctuation.section.block.begin.schemata
+#          ^ source.schemata
+#           ^^^ source.schemata constant.numeric.schemata
+#              ^ source.schemata
+#               ^^^^^^^ source.schemata entity.name.type.schemata
+#                      ^^ source.schemata
+#                        ^^^^^^^ source.schemata constant.language.schemata
+#                               ^ source.schemata
+#                                ^^^^^^^ source.schemata entity.name.type.schemata
+#                                       ^ source.schemata
+#                                        ^ source.schemata punctuation.section.block.end.schemata
 >  /// Fetch one order.
 #^^ source.schemata
 #  ^^^^^^^^^^^^^^^^^^^^ source.schemata comment.line.documentation.schemata
->  #1 get(OrderId): Order  get "/orders/{id}"
+>  #1 get(OrderId): Order  get "/orders/{id}"  errors { 404 Problem }
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
@@ -78,6 +98,16 @@
 #                          ^^^ source.schemata keyword.other.verb.schemata
 #                             ^ source.schemata
 #                              ^^^^^^^^^^^^^^ source.schemata string.quoted.double.schemata
+#                                            ^^ source.schemata
+#                                              ^^^^^^ source.schemata keyword.control.schemata
+#                                                    ^ source.schemata
+#                                                     ^ source.schemata punctuation.section.block.begin.schemata
+#                                                      ^ source.schemata
+#                                                       ^^^ source.schemata constant.numeric.schemata
+#                                                          ^ source.schemata
+#                                                           ^^^^^^^ source.schemata entity.name.type.schemata
+#                                                                  ^ source.schemata
+#                                                                   ^ source.schemata punctuation.section.block.end.schemata
 >  #2 list(ListOrders): stream Order  get "/orders" // newest first
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
@@ -95,7 +125,7 @@
 #                                         ^^^^^^^^^ source.schemata string.quoted.double.schemata
 #                                                  ^ source.schemata
 #                                                   ^^^^^^^^^^^^^^^ source.schemata comment.line.double-slash.schemata
->  #3 place(PlaceOrder): Order  post "/orders"
+>  #3 place(PlaceOrder): Order  post "/orders" 201
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
@@ -108,7 +138,9 @@
 #                               ^^^^ source.schemata keyword.other.verb.schemata
 #                                   ^ source.schemata
 #                                    ^^^^^^^^^ source.schemata string.quoted.double.schemata
->  #4 cancel(OrderId)  delete "/orders/{id}"
+#                                             ^ source.schemata
+#                                              ^^^ source.schemata constant.numeric.schemata
+>  #4 cancel(OrderId)  delete "/orders/{id}" 204
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
 #    ^ source.schemata
@@ -119,6 +151,24 @@
 #                      ^^^^^^ source.schemata keyword.other.verb.schemata
 #                            ^ source.schemata
 #                             ^^^^^^^^^^^^^^ source.schemata string.quoted.double.schemata
+#                                           ^ source.schemata
+#                                            ^^^ source.schemata constant.numeric.schemata
+>    errors {
+#^^^^ source.schemata
+#    ^^^^^^ source.schemata keyword.control.schemata
+#          ^ source.schemata
+#           ^ source.schemata punctuation.section.block.begin.schemata
+>      409 catalog.Conflict
+#^^^^^^ source.schemata
+#      ^^^ source.schemata constant.numeric.schemata
+#         ^^^^^^^^^ source.schemata
+#                  ^^^^^^^^ source.schemata entity.name.type.schemata
+>      503
+#^^^^^^ source.schemata
+#      ^^^ source.schemata constant.numeric.schemata
+>    }
+#^^^^ source.schemata
+#    ^ source.schemata punctuation.section.block.end.schemata
 >  #5 upload(stream Chunk): Receipt
 #^^ source.schemata
 #  ^^ source.schemata constant.numeric.ordinal.schemata
