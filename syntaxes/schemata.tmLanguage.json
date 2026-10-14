@@ -595,6 +595,9 @@
           "include": "#block-comment"
         },
         {
+          "include": "#errors-clause"
+        },
+        {
           "include": "#binding"
         },
         {
@@ -633,13 +636,63 @@
       ]
     },
     "binding": {
-      "match": "\\b(get|post|put|patch|delete|head|options)\\s+(\\\"[^\\\"]*\\\")",
+      "match": "\\b(get|post|put|patch|delete|head|options)\\s+(\\\"[^\\\"]*\\\")(?:\\s+([0-9]+)\\b)?",
       "captures": {
         "1": {
           "name": "keyword.other.verb.schemata"
         },
         "2": {
           "name": "string.quoted.double.schemata"
+        },
+        "3": {
+          "name": "constant.numeric.schemata"
+        }
+      }
+    },
+    "errors-clause": {
+      "comment": "`errors` is an ordinary identifier elsewhere, so only `errors {` inside a service body opens the clause.",
+      "begin": "\\b(errors)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.schemata"
+        },
+        "2": {
+          "name": "punctuation.section.block.begin.schemata"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemata"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#doc-comment"
+        },
+        {
+          "include": "#line-comment"
+        },
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#error-code"
+        },
+        {
+          "include": "#type-name"
+        }
+      ]
+    },
+    "error-code": {
+      "comment": "A code is an HTTP status or `default`; the type after it is its body.",
+      "match": "\\b(?:([0-9]+)|(default))\\b",
+      "captures": {
+        "1": {
+          "name": "constant.numeric.schemata"
+        },
+        "2": {
+          "name": "constant.language.schemata"
         }
       }
     },
