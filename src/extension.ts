@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import * as vscode from "vscode";
 import { LanguageClient, LanguageClientOptions, ServerOptions } from "vscode-languageclient/node";
+import { initializationOptions } from "./settings";
 import { MINIMUM, accepts } from "./version";
 
 let client: LanguageClient | undefined;
@@ -15,13 +16,8 @@ function enqueue(task: () => Promise<void>): Promise<void> {
   return run;
 }
 
-function settings(): { path: string; roots: string[]; strict: boolean } {
-  const config = vscode.workspace.getConfiguration("schemata");
-  return {
-    path: config.get<string>("path", "schemata"),
-    roots: config.get<string[]>("roots", []),
-    strict: config.get<boolean>("strict", false),
-  };
+function serverPath(): string {
+  return vscode.workspace.getConfiguration("schemata").get<string>("path", "schemata");
 }
 
 /** Runs `<path> --version`; resolves to its output, or undefined when it cannot be run. */
@@ -34,7 +30,8 @@ function versionOf(path: string): Promise<string | undefined> {
 }
 
 async function start(): Promise<void> {
-  const { path, roots, strict } = settings();
+  const path = serverPath();
+  const config = vscode.workspace.getConfiguration("schemata");
   const output = await versionOf(path);
   if (output === undefined) {
     void vscode.window.showErrorMessage(
@@ -53,7 +50,10 @@ async function start(): Promise<void> {
   const server: ServerOptions = { command: path, args: ["lsp"] };
   const options: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "schemata" }],
-    initializationOptions: { roots, strict },
+    initializationOptions: initializationOptions(
+      config.inspect<string[]>("roots"),
+      config.inspect<boolean>("strict"),
+    ),
     synchronize: { configurationSection: "schemata" },
   };
   const candidate = new LanguageClient("schemata", "Schemata", server, options);

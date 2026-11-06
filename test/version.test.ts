@@ -17,21 +17,24 @@ test("output that is not a version line does not parse", () => {
   assert.equal(parseVersion("schemata x.y.z"), undefined);
 });
 
-test("2.0.0 and later read the 2.0 syntax; 1.x does not", () => {
-  assert.equal(supports([2, 0, 0]), true);
-  assert.equal(supports([2, 1, 3]), true);
+test("2.13.0 and later reload schemata.toml; earlier versions do not", () => {
+  assert.equal(supports([2, 13, 0]), true);
+  assert.equal(supports([2, 13, 3]), true);
   assert.equal(supports([3, 0, 0]), true);
+  assert.equal(supports([2, 12, 9]), false);
+  assert.equal(supports([2, 0, 0]), false);
   assert.equal(supports([1, 9, 9]), false);
   assert.equal(supports([1, 2, 0]), false);
   assert.equal(supports([0, 8, 0]), false);
 });
 
-test("a dev build passes the floor; a tagged version must reach 2.0.0", () => {
+test("a dev build passes the floor; a tagged version must reach 2.13.0", () => {
   assert.equal(accepts("schemata 1.4.0-dev+abc\n"), true);
   assert.equal(accepts("schemata 2.0.0-rc.1-dev+abc"), true);
   assert.equal(accepts("schemata 1.4.0\n"), false);
-  assert.equal(accepts("schemata 2.0.0-rc.1"), true);
-  assert.equal(accepts("schemata 2.0.0"), true);
+  assert.equal(accepts("schemata 2.12.0"), false);
+  assert.equal(accepts("schemata 2.13.0-rc.1"), true);
+  assert.equal(accepts("schemata 2.13.0"), true);
 });
 
 test("output that is not a version line is refused", () => {
